@@ -28,5 +28,9 @@
     "bluebird": "*",
     "left-pad": "*",
     "solidity-sha3": "*"
+  },
+  "dependencies": {
+    "ganache-cli": "^6.1.8",
+    "truffle-hdwallet-provider": "0.0.6"
   }
 }
