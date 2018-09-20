@@ -164,8 +164,7 @@ contract('SimpleMultiSig', function(accounts) {
         keyFromPw = k
 
         lw.generateNewAddress(keyFromPw, 20)
-        let acctWithout0x = lw.getAddresses()
-        acct = acctWithout0x.map((a) => {return a})
+        acct = lw.getAddresses() // without 0x
         acct.sort()
         done()
       })
