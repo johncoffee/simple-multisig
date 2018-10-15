@@ -5,10 +5,9 @@ const BigNumber = require('bignumber.js')
 
 function createSig (ks, signingAddr, keyFromPw, multisigContractAddr, nonce, destinationAddr, value, data) {
   nonce = new BigNumber(nonce) // typeguard
+  value = new BigNumber(value) // typeguard
   console.assert(multisigContractAddr.substr(0,2) === "0x", "multisigAddr should be in hex format",multisigContractAddr)
   console.assert(destinationAddr.substr(0,2) === "0x", "destinationAddr should be in hex format",destinationAddr)
-  // console.assert(value.substr(0,2) === "0x", "value should be in hex format")
-  // console.assert(data.substr(0,2) === "0x", "data should be in hex format")
 
   let input = '0x19' + '00'
     + multisigContractAddr.slice(2)

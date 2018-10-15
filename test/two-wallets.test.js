@@ -3,7 +3,7 @@ const StateMachine = artifacts.require('./StateMachine.sol')
 const lightwallet = require('eth-lightwallet')
 // const solsha3 = require('solidity-sha3').default
 // const leftPad = require('left-pad')
-// const BigNumber = require('bignumber.js')
+const BigNumber = require('bignumber.js')
 
 const createSig = require("../src/createSig")
 
@@ -118,8 +118,9 @@ contract('Test multisig', ([deployer]) => {
 
     // fetch sigs
     const destAddr = stateMachineInstance.address
-    const destValue = "0"
-    const destData = lightwallet.txutils._encodeFunctionTxData('setState', [], [])
+    const destValue = new BigNumber("0")
+    const destData = lightwallet.txutils
+      ._encodeFunctionTxData('nextState', [], []) // sending data doesn't work https://github.com/ethereum/solidity/issues/2884
 
     const sig1 = await retrieveSig1(multisigInstance.address,  nonce,
       destAddr, destValue, destData)
