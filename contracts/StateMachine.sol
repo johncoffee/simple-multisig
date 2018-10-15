@@ -24,7 +24,7 @@ contract StateMachine is Owned {
         return state;
     }
 
-    function setState() public ownerOnly {
+    function nextState() external ownerOnly {
         state++;
     }
 }
