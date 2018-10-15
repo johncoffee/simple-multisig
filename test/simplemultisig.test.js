@@ -117,33 +117,33 @@ contract('SimpleMultiSig', function(accounts) {
     let value = web3.toWei(new BigNumber(0.1), 'ether')
     let sigs = createSigs(signers, multisig.address, nonce, randomAddr, value, '0x')
 
-    let errMsg = ''
+    let didThrowAndRevert = false
     try {
     await multisig.execute(sigs.sigV, sigs.sigR, sigs.sigS, randomAddr, value, '0x', {from: accounts[0], gasLimit: 1000000})
     }
     catch(error) {
-      errMsg = error.message
+      didThrowAndRevert = error.message.indexOf('VM Exception while processing transaction: revert') === 0
     }
 
-    assert.equal(errMsg, 'VM Exception while processing transaction: revert', 'Test did not throw')
+    assert.isTrue(didThrowAndRevert, 'Test did not throw during execute')
 
     done()
   }
 
   let creationFailure = async function(owners, threshold, done) {
-
+    let didThrowAndRevert = false
     try {
       await SimpleMultiSig.new(threshold, owners, {from: accounts[0]})
     }
     catch(error) {
-      errMsg = error.message
+      didThrowAndRevert = error.message.indexOf('VM Exception while processing transaction: revert') === 0
     }
 
-    assert.equal(errMsg, 'VM Exception while processing transaction: revert', 'Test did not throw')
+    assert.isTrue(didThrowAndRevert, 'Test did not throw during creation')
 
     done()
   }
-  
+
   before((done) => {
 
     let seed = "pull rent tower word science patrol economy legal yellow kit frequent fat"
@@ -212,14 +212,14 @@ contract('SimpleMultiSig', function(accounts) {
       executeSendFailure(acct.slice(0,3), 2, signers, done)
     })
 
-  })  
+  })
 
   describe("Edge cases", () => {
     it("should succeed with 10 owners, 10 signers", (done) => {
       executeSendSuccess(acct.slice(0,10), 10, acct.slice(0,10), done)
     })
 
-    it("should fail to create with signers 0, 0, 2, and threshold 3", (done) => { 
+    it("should fail to create with signers 0, 0, 2, and threshold 3", (done) => {
       creationFailure([acct[0],acct[0],acct[2]], 3, done)
     })
 
