@@ -1,5 +1,6 @@
 const SimpleMultiSig = artifacts.require('./SimpleMultiSig.sol')
 const StateMachine = artifacts.require('./StateMachine.sol')
+const {keystore} = require('eth-lightwallet')
 const lightwallet = require('eth-lightwallet')
 const solsha3 = require('solidity-sha3').default
 const leftPad = require('left-pad')
@@ -34,7 +35,7 @@ function retrieveAddress1 () {
   return new Promise(resolve => {
     const password = '123'
     const seedPhrase = 'pretty harsh depart gloom whip quit stable turtle question supreme rather problem'
-    lightwallet.keystore.createVault({
+    keystore.createVault({
       hdPathString: "m/44'/60'/0'/0",
       seedPhrase, password,
     }, (err, ks) => {
@@ -51,7 +52,7 @@ function retrieveAddress2 () {
   return new Promise(resolve => {
     const password = '234'
     const seedPhrase = 'appear sponsor reveal either forget easily genre buzz print giggle erupt leopard'
-    lightwallet.keystore.createVault({
+    keystore.createVault({
       hdPathString: "m/44'/60'/0'/0",
       seedPhrase, password,
     }, (err, ks) => {
@@ -68,7 +69,7 @@ function retrieveSig1 (multisigAddr, nonce, destAddr, destValue, destData) {
   return new Promise(resolve => {
     const password = '123'
     const seedPhrase = 'pretty harsh depart gloom whip quit stable turtle question supreme rather problem'
-    lightwallet.keystore.createVault({
+    keystore.createVault({
       hdPathString: "m/44'/60'/0'/0",
       seedPhrase, password,
     }, (err, ks) => {
@@ -87,7 +88,7 @@ function retrieveSig2 (multisigAddr, nonce, destAddr, destValue, destData) {
     const password = '234'
     const seedPhrase = 'appear sponsor reveal either forget easily genre buzz print giggle erupt leopard'
 
-    lightwallet.keystore.createVault({
+    keystore.createVault({
       hdPathString: "m/44'/60'/0'/0",
       seedPhrase, password,
     }, (err, ks) => {
