@@ -17,3 +17,9 @@ To run the tests:
 * Make sure `ganache-cli` is running in its own terminal window.
 * `npm install`
 * `npm run test`
+
+
+## Trouble shooting
+
+Remember that BigNumber is the standard format for all soliditys number types, when communication to and
+from a contract from javascript.
