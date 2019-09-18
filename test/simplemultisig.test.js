@@ -1,10 +1,6 @@
 var SimpleMultiSig = artifacts.require("./SimpleMultiSig.sol")
 var TestRegistry = artifacts.require("./TestRegistry.sol")
 var lightwallet = require('eth-lightwallet')
-const Promise = require('bluebird')
-
-const web3SendTransaction = Promise.promisify(web3.eth.sendTransaction)
-const web3GetBalance = Promise.promisify(web3.eth.getBalance)
 
 let DOMAIN_SEPARATOR
 const TXTYPE_HASH = '0x3ee892349ae4bbe61dce18f95115b5dc02daf49204cc602458cd4c1f540d56d7'
@@ -71,12 +67,12 @@ contract('SimpleMultiSig', function(accounts) {
     let msgSender = accounts[0]
 
     // Receive funds
-    await web3SendTransaction({from: accounts[0], to: multisig.address, value: web3.toWei(web3.toBigNumber(0.1), 'ether')})
+    await web3.eth.sendTransaction({from: accounts[0], to: multisig.address, value: web3.toWei(web3.toBigNumber(0.1), 'ether')})
 
     let nonce = await multisig.nonce.call()
     assert.equal(nonce.toNumber(), 0)
 
-    let bal = await web3GetBalance(multisig.address)
+    let bal = await web3.eth.getBalance(multisig.address)
     assert.equal(bal, web3.toWei(0.1, 'ether'))
 
     // check that owners are stored correctly
@@ -92,7 +88,7 @@ contract('SimpleMultiSig', function(accounts) {
     await multisig.execute(sigs.sigV, sigs.sigR, sigs.sigS, randomAddr, value, '', executor, 21000, {from: msgSender, gasLimit: 1000000})
 
     // Check funds sent
-    bal = await web3GetBalance(randomAddr)
+    bal = await web3.eth.getBalance(randomAddr)
     assert.equal(bal.toString(), value.toString())
 
     // Check nonce updated
@@ -105,7 +101,7 @@ contract('SimpleMultiSig', function(accounts) {
     await multisig.execute(sigs.sigV, sigs.sigR, sigs.sigS, randomAddr, value, '', ZEROADDR, 21000, {from: msgSender, gasLimit: 1000000})
 
     // Check funds
-    bal = await web3GetBalance(randomAddr)
+    bal = await web3.eth.getBalance(randomAddr)
     assert.equal(bal.toString(), (value*2).toString())
 
     // Check nonce updated
@@ -126,7 +122,7 @@ contract('SimpleMultiSig', function(accounts) {
     assert.equal(numFromRegistry.toNumber(), number)
 
     // Check funds in registry
-    bal = await web3GetBalance(reg.address)
+    bal = await web3.eth.getBalance(reg.address)
     assert.equal(bal.toString(), value.toString())
 
     // Check nonce updated
@@ -144,7 +140,7 @@ contract('SimpleMultiSig', function(accounts) {
     assert.equal(nonce.toNumber(), 0)
 
     // Receive funds
-    await web3SendTransaction({from: accounts[0], to: multisig.address, value: web3.toWei(web3.toBigNumber(2), 'ether')})
+    await web3.eth.sendTransaction({from: accounts[0], to: multisig.address, value: web3.toWei(web3.toBigNumber(2), 'ether')})
 
     let randomAddr = web3.sha3(Math.random().toString()).slice(0,42)
     let value = web3.toWei(web3.toBigNumber(0.1), 'ether')

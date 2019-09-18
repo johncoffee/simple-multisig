@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/christianlundkvist/simple-multisig#readme",
   "devDependencies": {
-    "bluebird": "^3.5.5",
     "eth-lightwallet": "^4.0.0",
     "ganache-cli": "^6.7.0",
     "solidity-sha3": "^0.4.1",
