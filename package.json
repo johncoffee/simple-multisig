@@ -24,13 +24,13 @@
   },
   "homepage": "https://github.com/christianlundkvist/simple-multisig#readme",
   "devDependencies": {
-    "bluebird": "*",
-    "eth-lightwallet": "*",
-    "left-pad": "*",
-    "solidity-sha3": "*"
+    "bluebird": "^3.5.5",
+    "eth-lightwallet": "^4.0.0",
+    "ganache-cli": "^6.7.0",
+    "solidity-sha3": "^0.4.1",
+    "truffle": "^4.1.16"
   },
   "dependencies": {
-    "ganache-cli": "^6.1.8",
     "truffle-hdwallet-provider": "0.0.6"
   }
 }
